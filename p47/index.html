@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Protocol 47</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* App-like feel */
+        body { -webkit-tap-highlight-color: transparent; overscroll-behavior-y: none; }
+        .hidden-section { display: none; }
+        .active-nav { color: #3b82f6; }
+        input[type="checkbox"]:checked + span { text-decoration: line-through; opacity: 0.5; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans h-screen flex flex-col justify-between">
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-1 overflow-y-auto p-4 pb-20">
+        
+        <!-- DASHBOARD SECTION -->
+        <section id="view-home">
+            <header class="mb-6">
+                <h1 class="text-2xl font-bold text-blue-400">Protocol 47</h1>
+                <p class="text-gray-400 text-sm">Target: 65kg | Current: 62kg</p>
+            </header>
+
+            <!-- Dynamic Next Up Card -->
+            <div class="bg-gray-800 p-5 rounded-xl shadow-lg border border-gray-700 mb-6">
+                <h2 class="text-sm uppercase tracking-wide text-gray-400 mb-2">Coming Up</h2>
+                <div id="dashboard-status" class="text-xl font-bold text-white">Loading...</div>
+                <div id="dashboard-sub" class="text-sm text-gray-300 mt-1"></div>
+            </div>
+
+            <!-- Quick Stats / Motivation -->
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 text-center">
+                    <span class="block text-2xl">💧</span>
+                    <span class="text-xs text-gray-400">Creatine (5g)</span>
+                    <input type="checkbox" class="mt-2 w-5 h-5" onclick="toggleDaily('creatine')">
+                </div>
+                <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 text-center">
+                    <span class="block text-2xl">🚶</span>
+                    <span class="text-xs text-gray-400">10m Walk</span>
+                    <input type="checkbox" class="mt-2 w-5 h-5" onclick="toggleDaily('walk')">
+                </div>
+            </div>
+        </section>
+
+        <!-- TRAINING SECTION -->
+        <section id="view-train" class="hidden-section">
+            <h2 class="text-xl font-bold mb-4 text-blue-400">Training Log</h2>
+            
+            <!-- Day Selector -->
+            <div class="flex space-x-2 mb-4 overflow-x-auto">
+                <button onclick="showWorkout('mon')" class="px-4 py-2 bg-gray-800 rounded-lg whitespace-nowrap focus:bg-blue-600">Mon (Push)</button>
+                <button onclick="showWorkout('wed')" class="px-4 py-2 bg-gray-800 rounded-lg whitespace-nowrap focus:bg-blue-600">Wed (Pull)</button>
+                <button onclick="showWorkout('fri')" class="px-4 py-2 bg-gray-800 rounded-lg whitespace-nowrap focus:bg-blue-600">Fri (Legs)</button>
+            </div>
+
+            <!-- Workout Content (Dynamic) -->
+            <div id="workout-container" class="bg-gray-800 p-4 rounded-xl border border-gray-700">
+                <h3 id="workout-title" class="text-lg font-bold mb-2">Select a day</h3>
+                <ul id="workout-list" class="text-sm text-gray-300 space-y-3 mb-4">
+                    <!-- Exercises go here -->
+                </ul>
+                <textarea id="workout-notes" class="w-full bg-gray-900 text-white p-3 rounded-lg border border-gray-700 h-24 text-sm" placeholder="Log weights/reps here..."></textarea>
+                <button onclick="saveNotes()" class="mt-3 w-full bg-blue-600 py-2 rounded-lg font-bold">Save Log</button>
+            </div>
+        </section>
+
+        <!-- DIET SECTION -->
+        <section id="view-diet" class="hidden-section">
+            <h2 class="text-xl font-bold mb-4 text-green-400">Nutrition Cycle</h2>
+            
+            <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 mb-4">
+                <h3 class="font-bold text-white mb-2">🏆 The "Liquid Gold" Shake</h3>
+                <p class="text-xs text-gray-400 mb-2">Drink post-workout. 800 Calories.</p>
+                <ul class="text-sm space-y-1 list-disc pl-4 text-gray-300">
+                    <li>2 Scoops Whey</li>
+                    <li>300ml Whole Milk / Oat Milk</li>
+                    <li>1 Tbsp Peanut Butter</li>
+                    <li>1 Banana</li>
+                    <li>5g Creatine</li>
+                    <li>Handful of Oats (Blended)</li>
+                </ul>
+            </div>
+
+            <div class="bg-gray-800 p-4 rounded-xl border border-gray-700">
+                <h3 class="font-bold text-white mb-2">Rules</h3>
+                <div class="space-y-3">
+                    <div class="text-sm">
+                        <span class="text-blue-400 font-bold">Training Days:</span>
+                        <p class="text-gray-400">High Carbs. Pasta/Rice AFTER lifting. 200 calorie surplus.</p>
+                    </div>
+                    <div class="text-sm">
+                        <span class="text-red-400 font-bold">Rest Days:</span>
+                        <p class="text-gray-400">Low Carbs. High Fat (Avocado/Nuts). Focus on Protein.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SHOPPING SECTION -->
+        <section id="view-shop" class="hidden-section">
+            <h2 class="text-xl font-bold mb-4 text-purple-400">Essentials List</h2>
+            <div class="bg-gray-800 p-2 rounded-xl border border-gray-700">
+                <ul class="divide-y divide-gray-700">
+                    <!-- List Items -->
+                    <li class="p-3 flex items-center"><input type="checkbox" class="mr-3 w-5 h-5"> <span>Whey Protein</span></li>
+                    <li class="p-3 flex items-center"><input type="checkbox" class="mr-3 w-5 h-5"> <span>Creatine Monohydrate</span></li>
+                    <li class="p-3 flex items-center"><input type="checkbox" class="mr-3 w-5 h-5"> <span>Whole Milk / Oat Milk</span></li>
+                    <li class="p-3 flex items-center"><input type="checkbox" class="mr-3 w-5 h-5"> <span>Bananas</span></li>
+                    <li class="p-3 flex items-center"><input type="checkbox" class="mr-3 w-5 h-5"> <span>Peanut Butter (100% Nut)</span></li>
+                    <li class="p-3 flex items-center"><input type="checkbox" class="mr-3 w-5 h-5"> <span>Avocados</span></li>
+                    <li class="p-3 flex items-center"><input type="checkbox" class="mr-3 w-5 h-5"> <span>Almonds/Walnuts</span></li>
+                    <li class="p-3 flex items-center"><input type="checkbox" class="mr-3 w-5 h-5"> <span>Oats</span></li>
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="bg-gray-900 border-t border-gray-800 flex justify-around p-4 text-xs text-gray-500 fixed bottom-0 w-full z-50">
+        <button onclick="switchTab('home', this)" class="nav-btn active-nav flex flex-col items-center">
+            <span class="text-xl mb-1">🏠</span> Home
+        </button>
+        <button onclick="switchTab('train', this)" class="nav-btn flex flex-col items-center">
+            <span class="text-xl mb-1">💪</span> Train
+        </button>
+        <button onclick="switchTab('diet', this)" class="nav-btn flex flex-col items-center">
+            <span class="text-xl mb-1">🍗</span> Diet
+        </button>
+        <button onclick="switchTab('shop', this)" class="nav-btn flex flex-col items-center">
+            <span class="text-xl mb-1">🛒</span> Shop
+        </button>
+    </nav>
+
+    <script>
+        // --- DATA & LOGIC ---
+
+        const workouts = {
+            mon: {
+                title: "Monday: Push (Chest Focus)",
+                exercises: [
+                    "Incline DB Press: 3x 8-10 (Heavy)",
+                    "Dips: 3x Failure (Lean Forward)",
+                    "Overhead Press: 3x 8-10",
+                    "Finisher: 10m Incline Walk"
+                ]
+            },
+            wed: {
+                title: "Wednesday: Pull (Back)",
+                exercises: [
+                    "Deadlifts: 3x 5 (Core Engine)",
+                    "Pull Ups / Lat Pulldown: 3x 10",
+                    "Face Pulls: 3x 15 (Posture)",
+                    "Finisher: 10m Incline Walk"
+                ]
+            },
+            fri: {
+                title: "Friday: Legs",
+                exercises: [
+                    "Squats: 3x 6-8",
+                    "Leg Press: 3x 12",
+                    "Calf Raises: 3x 15",
+                    "Finisher: 10m Incline Walk"
+                ]
+            }
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            setDashboard();
+            showWorkout('mon'); // Default load
+        });
+
+        // Navigation
+        function switchTab(viewId, btn) {
+            document.querySelectorAll('section').forEach(el => el.classList.add('hidden-section'));
+            document.getElementById('view-' + viewId).classList.remove('hidden-section');
+            
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active-nav', 'text-blue-400'));
+            if(btn) btn.classList.add('active-nav', 'text-blue-400');
+        }
+
+        // Dashboard Logic
+        function setDashboard() {
+            const day = new Date().getDay(); // 0=Sun, 1=Mon, etc.
+            const statusEl = document.getElementById('dashboard-status');
+            const subEl = document.getElementById('dashboard-sub');
+
+            if (day === 1) {
+                statusEl.innerText = "Training Day: PUSH";
+                subEl.innerText = "Focus: Upper Chest. Earn your carbs.";
+            } else if (day === 3) {
+                statusEl.innerText = "Training Day: PULL";
+                subEl.innerText = "Focus: Deadlifts. Go heavy.";
+            } else if (day === 5) {
+                statusEl.innerText = "Training Day: LEGS";
+                subEl.innerText = "Focus: Squats. Don't skip the incline walk.";
+            } else {
+                statusEl.innerText = "Rest Day";
+                subEl.innerText = "Low Carb. High Protein. 10m Walk after dinner.";
+            }
+        }
+
+        // Workout Logic
+        let currentDayKey = 'mon';
+
+        function showWorkout(dayKey) {
+            currentDayKey = dayKey;
+            const data = workouts[dayKey];
+            
+            document.getElementById('workout-title').innerText = data.title;
+            const list = document.getElementById('workout-list');
+            list.innerHTML = '';
+            data.exercises.forEach(ex => {
+                list.innerHTML += `<li class="border-b border-gray-700 pb-1">${ex}</li>`;
+            });
+
+            // Load saved notes
+            const saved = localStorage.getItem(`log_${dayKey}`);
+            document.getElementById('workout-notes').value = saved ? saved : '';
+        }
+
+        function saveNotes() {
+            const notes = document.getElementById('workout-notes').value;
+            localStorage.setItem(`log_${currentDayKey}`, notes);
+            alert('Log Saved for ' + currentDayKey.toUpperCase());
+        }
+
+        // Daily Toggles (visual only for now)
+        function toggleDaily(key) {
+            // In a full app, you'd save date + state to localStorage to reset daily
+            console.log(key + ' toggled');
+        }
+    </script>
+</body>
+</html>
