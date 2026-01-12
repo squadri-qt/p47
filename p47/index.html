@@ -7,237 +7,156 @@
     <title>Protocol 47</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* App-like feel */
-        body { -webkit-tap-highlight-color: transparent; overscroll-behavior-y: none; }
+        /* BRAND COLORS: Main: #131314 | Accent: #16D5E3 | Light: #F6F6F6 */
+        body { -webkit-tap-highlight-color: transparent; overscroll-behavior-y: none; background-color: #131314; }
         .hidden-section { display: none; }
-        .active-nav { color: #3b82f6; } /* Blue-500 */
-        input[type="checkbox"]:checked + span { text-decoration: line-through; opacity: 0.5; }
-        /* Smooth scrolling for text areas */
         .scroll-hide::-webkit-scrollbar { display: none; }
         .scroll-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        input[type="checkbox"] { accent-color: #16D5E3; }
+        input[type="checkbox"]:checked + span { text-decoration: line-through; opacity: 0.4; }
+        .nav-btn.active-nav { color: #16D5E3; }
+        .nav-btn.active-nav span { text-shadow: 0 0 10px rgba(22, 213, 227, 0.4); }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 font-sans h-screen flex flex-col justify-between selection:bg-blue-500 selection:text-white">
+<body class="text-[#F6F6F6] font-sans h-screen flex flex-col justify-between selection:bg-[#16D5E3] selection:text-black">
 
     <!-- MAIN CONTENT AREA -->
-    <main class="flex-1 overflow-y-auto p-4 pb-24 scroll-hide">
+    <main class="flex-1 overflow-y-auto p-5 pb-24 scroll-hide">
         
+        <!-- HEADER -->
+        <header class="mb-8 flex justify-between items-end border-b border-[#1c1c1f] pb-4">
+            <div>
+                <h1 class="text-3xl font-bold text-[#16D5E3] tracking-tight">PROTOCOL 47</h1>
+                <p class="text-gray-500 text-xs mt-1 uppercase tracking-widest">Target: 65kg | Current: 62kg</p>
+            </div>
+            <div class="text-right">
+                <span id="date-display" class="text-[10px] text-gray-500 font-mono border border-gray-800 px-2 py-1 rounded">...</span>
+            </div>
+        </header>
+
         <!-- DASHBOARD SECTION -->
         <section id="view-home">
-            <header class="mb-6 flex justify-between items-center">
-                <div>
-                    <h1 class="text-2xl font-bold text-blue-400">Protocol 47</h1>
-                    <p class="text-gray-400 text-xs">Target: 65kg | Current: 62kg</p>
-                </div>
-                <div class="text-right">
-                    <span id="date-display" class="text-xs text-gray-500 font-mono"></span>
-                </div>
-            </header>
-
-            <!-- Dynamic Training Card -->
-            <div id="dashboard-card" class="bg-gray-800 p-5 rounded-xl shadow-lg border border-gray-700 mb-4">
-                <h2 class="text-xs uppercase tracking-wide text-gray-400 mb-1">Today's Mission</h2>
-                <div id="dashboard-status" class="text-xl font-bold text-white">Loading...</div>
-                <div id="dashboard-sub" class="text-sm text-gray-300 mt-1"></div>
+            <div id="dashboard-card" class="bg-[#1c1c1f] p-6 rounded-2xl shadow-lg border border-[#2a2a2d] mb-6 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-20 h-20 bg-[#16D5E3] opacity-5 blur-2xl rounded-full -mr-10 -mt-10"></div>
+                <h2 class="text-[10px] uppercase tracking-widest text-gray-500 mb-2">Current Objective</h2>
+                <div id="dashboard-status" class="text-2xl font-bold text-white mb-1">Loading...</div>
+                <div id="dashboard-sub" class="text-sm text-[#16D5E3]"></div>
             </div>
 
-            <!-- Dynamic Meal Suggestion (New) -->
-            <div class="bg-gray-800 p-5 rounded-xl shadow-lg border border-gray-700 mb-6">
-                <h2 class="text-xs uppercase tracking-wide text-green-400 mb-1">🍽️ Today's Fuel Strategy</h2>
-                <div id="meal-suggestion" class="text-sm text-gray-200 font-medium leading-relaxed">
-                    Loading...
-                </div>
+            <div class="bg-[#1c1c1f] p-6 rounded-2xl border border-[#2a2a2d] mb-6">
+                <h2 class="text-[10px] uppercase tracking-widest text-gray-500 mb-3">🍽️ Fuel Strategy</h2>
+                <div id="meal-suggestion" class="text-sm text-gray-300 font-normal leading-relaxed">Loading...</div>
             </div>
 
-            <!-- Quick Stats -->
             <div class="grid grid-cols-2 gap-4">
-                <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 text-center">
-                    <span class="block text-2xl">💧</span>
-                    <span class="text-xs text-gray-400">Creatine (5g)</span>
-                    <input type="checkbox" class="mt-2 w-5 h-5 accent-blue-500" onclick="toggleDaily('creatine')">
+                <div class="bg-[#1c1c1f] p-4 rounded-2xl border border-[#2a2a2d] text-center">
+                    <span class="block text-2xl mb-1">💧</span>
+                    <span class="text-[10px] uppercase text-gray-500 tracking-wider">Creatine (5g)</span>
+                    <div class="mt-3 flex justify-center"><input type="checkbox" class="w-6 h-6 rounded border-gray-600 bg-transparent" onclick="toggleDaily('creatine')"></div>
                 </div>
-                <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 text-center">
-                    <span class="block text-2xl">🌙</span>
-                    <span class="text-xs text-gray-400">Post-Dinner Walk</span>
-                    <input type="checkbox" class="mt-2 w-5 h-5 accent-blue-500" onclick="toggleDaily('walk')">
+                <div class="bg-[#1c1c1f] p-4 rounded-2xl border border-[#2a2a2d] text-center">
+                    <span class="block text-2xl mb-1">🌙</span>
+                    <span class="text-[10px] uppercase text-gray-500 tracking-wider">Post-Dinner Walk</span>
+                    <div class="mt-3 flex justify-center"><input type="checkbox" class="w-6 h-6 rounded border-gray-600 bg-transparent" onclick="toggleDaily('walk')"></div>
                 </div>
             </div>
         </section>
 
-        <!-- GUIDE / EDUCATION SECTION (NEW) -->
+        <!-- GUIDE SECTION -->
         <section id="view-guide" class="hidden-section">
-            <h2 class="text-xl font-bold mb-4 text-yellow-400">The Blueprint</h2>
-            
+            <h2 class="text-xl font-bold mb-6 text-[#16D5E3]">The Blueprint</h2>
             <div class="space-y-4">
-                <!-- The Problem -->
-                <div class="bg-gray-800 p-4 rounded-xl border border-gray-700">
-                    <h3 class="font-bold text-white text-lg mb-2">Why the Belly?</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed mb-3">
-                        <strong class="text-gray-200">1. Genetics:</strong> South Asian background means lower insulin sensitivity. Your body prefers storing carbs as belly fat rather than muscle fuel.
-                    </p>
-                    <p class="text-sm text-gray-400 leading-relaxed">
-                        <strong class="text-gray-200">2. Skinny Fat:</strong> You aren't overweight, you are "under-muscled." Dieting makes you look frail. Heavy lifting is the only cure.
-                    </p>
+                <div class="bg-[#1c1c1f] p-5 rounded-2xl border border-[#2a2a2d]">
+                    <h3 class="font-bold text-white text-md mb-3 border-l-4 border-[#16D5E3] pl-3">Why the Belly?</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed mb-3"><strong class="text-[#F6F6F6]">1. Genetics:</strong> Lower insulin sensitivity means your body prefers storing carbs as belly fat rather than muscle fuel.</p>
+                    <p class="text-sm text-gray-400 leading-relaxed"><strong class="text-[#F6F6F6]">2. Skinny Fat:</strong> You are "under-muscled." Dieting makes you look frail. Heavy lifting is the only cure.</p>
                 </div>
-
-                <!-- The Solution -->
-                <div class="bg-gray-800 p-4 rounded-xl border border-gray-700">
-                    <h3 class="font-bold text-white text-lg mb-2">The Fix</h3>
-                    <ul class="list-disc pl-4 text-sm text-gray-300 space-y-2">
-                        <li><strong class="text-blue-400">Heavy Compounds:</strong> Squats/Deadlifts release testosterone. This attacks the belly fat hormonally.</li>
-                        <li><strong class="text-green-400">The 10m Rule:</strong> Walking immediately after dinner forces glucose into muscles, preventing it from being stored as fat while you sleep.</li>
-                        <li><strong class="text-purple-400">Stress (Cortisol):</strong> High stress moves fat to the belly. Sleep & walking lower stress.</li>
+                <div class="bg-[#1c1c1f] p-5 rounded-2xl border border-[#2a2a2d]">
+                    <h3 class="font-bold text-white text-md mb-3 border-l-4 border-[#16D5E3] pl-3">The Protocol</h3>
+                    <ul class="list-none text-sm text-gray-400 space-y-3">
+                        <li class="flex items-start"><span class="text-[#16D5E3] mr-2">▸</span><span><strong class="text-white">Heavy Compounds:</strong> Squats/Deadlifts release testosterone to attack visceral fat.</span></li>
+                        <li class="flex items-start"><span class="text-[#16D5E3] mr-2">▸</span><span><strong class="text-white">The 10m Rule:</strong> Walking immediately after dinner forces glucose into muscles.</span></li>
+                        <li class="flex items-start"><span class="text-[#16D5E3] mr-2">▸</span><span><strong class="text-white">Cortisol:</strong> Stress deposits fat on the belly. Sleep is non-negotiable.</span></li>
                     </ul>
-                </div>
-
-                <!-- Timing -->
-                <div class="bg-gray-800 p-4 rounded-xl border border-gray-700">
-                    <h3 class="font-bold text-white text-lg mb-2">Timing is Everything</h3>
-                    <div class="grid grid-cols-2 gap-2 text-center text-sm">
-                        <div class="bg-gray-900 p-2 rounded">
-                            <span class="block text-green-400 font-bold">Eat Carbs</span>
-                            <span class="text-xs text-gray-500">Post-Workout & Dinner</span>
-                        </div>
-                        <div class="bg-gray-900 p-2 rounded">
-                            <span class="block text-red-400 font-bold">Avoid Carbs</span>
-                            <span class="text-xs text-gray-500">Breakfast (Eat Eggs/Nuts)</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
 
         <!-- TRAINING SECTION -->
         <section id="view-train" class="hidden-section">
-            <h2 class="text-xl font-bold mb-4 text-blue-400">Training Log</h2>
-            
-            <div class="flex space-x-2 mb-4 overflow-x-auto pb-2">
-                <button onclick="showWorkout('mon')" class="flex-shrink-0 px-4 py-2 bg-gray-800 rounded-lg focus:bg-blue-600 focus:text-white transition-colors text-sm">Mon (Push)</button>
-                <button onclick="showWorkout('wed')" class="flex-shrink-0 px-4 py-2 bg-gray-800 rounded-lg focus:bg-blue-600 focus:text-white transition-colors text-sm">Wed (Pull)</button>
-                <button onclick="showWorkout('fri')" class="flex-shrink-0 px-4 py-2 bg-gray-800 rounded-lg focus:bg-blue-600 focus:text-white transition-colors text-sm">Fri (Legs)</button>
+            <h2 class="text-xl font-bold mb-6 text-[#16D5E3]">Training Log</h2>
+            <div class="flex p-1 bg-[#1c1c1f] rounded-xl mb-6">
+                <button onclick="showWorkout('mon')" id="btn-mon" class="flex-1 py-2 rounded-lg text-xs font-bold transition-all text-gray-400 hover:text-white">MON</button>
+                <button onclick="showWorkout('wed')" id="btn-wed" class="flex-1 py-2 rounded-lg text-xs font-bold transition-all text-gray-400 hover:text-white">WED</button>
+                <button onclick="showWorkout('fri')" id="btn-fri" class="flex-1 py-2 rounded-lg text-xs font-bold transition-all text-gray-400 hover:text-white">FRI</button>
             </div>
-
-            <div id="workout-container" class="bg-gray-800 p-4 rounded-xl border border-gray-700">
-                <h3 id="workout-title" class="text-lg font-bold mb-2 text-white">Select a day</h3>
-                <ul id="workout-list" class="text-sm text-gray-300 space-y-3 mb-4 pl-2"></ul>
-                <textarea id="workout-notes" class="w-full bg-gray-900 text-white p-3 rounded-lg border border-gray-700 h-24 text-sm focus:outline-none focus:border-blue-500" placeholder="Log weights (e.g., DB Press: 20kg)..."></textarea>
-                <button onclick="saveNotes()" class="mt-3 w-full bg-blue-600 active:bg-blue-700 py-3 rounded-lg font-bold text-sm shadow-lg transition-colors">Save Log</button>
+            <div id="workout-container" class="bg-[#1c1c1f] p-5 rounded-2xl border border-[#2a2a2d]">
+                <h3 id="workout-title" class="text-lg font-bold mb-4 text-white">Select a day</h3>
+                <!-- List container -->
+                <ul id="workout-list" class="text-sm text-gray-300 space-y-3 mb-6"></ul>
+                <textarea id="workout-notes" class="w-full bg-[#131314] text-[#F6F6F6] p-4 rounded-xl border border-[#2a2a2d] h-32 text-sm focus:outline-none focus:border-[#16D5E3] transition-colors resize-none" placeholder="Log your weights here..."></textarea>
+                <button id="save-btn" onclick="saveNotes()" class="mt-4 w-full bg-[#16D5E3] text-[#131314] py-4 rounded-xl font-bold text-sm hover:opacity-90 transition-opacity uppercase tracking-wider">Save Session Log</button>
             </div>
         </section>
 
         <!-- DIET SECTION -->
         <section id="view-diet" class="hidden-section">
-            <h2 class="text-xl font-bold mb-4 text-green-400">Nutrition Cycle</h2>
-            
-            <!-- Food Cheat Sheet (New) -->
-            <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 mb-6">
-                <h3 class="font-bold text-white mb-3">Food Cheat Sheet</h3>
-                <div class="grid grid-cols-2 gap-4">
+            <h2 class="text-xl font-bold mb-6 text-[#16D5E3]">Nutrition Cycle</h2>
+            <div class="bg-[#1c1c1f] p-5 rounded-2xl border border-[#2a2a2d] mb-6">
+                <div class="grid grid-cols-2 gap-6">
                     <div>
-                        <div class="text-xs font-bold text-green-400 uppercase mb-2">High Carb (Training Days)</div>
-                        <ul class="text-xs text-gray-400 space-y-1">
-                            <li>• White Rice / Basmati</li>
-                            <li>• Pasta / Spaghetti</li>
-                            <li>• Potatoes (White/Sweet)</li>
-                            <li>• Oats</li>
-                            <li>• Bananas</li>
-                            <li>• Bread / Wraps</li>
-                        </ul>
+                        <div class="text-[10px] font-bold text-[#16D5E3] uppercase mb-3 tracking-wider">High Carb (Train)</div>
+                        <ul class="text-xs text-gray-400 space-y-2"><li>Rice / Pasta</li><li>Potatoes</li><li>Oats & Bananas</li><li>Bread / Wraps</li></ul>
                     </div>
                     <div>
-                        <div class="text-xs font-bold text-red-400 uppercase mb-2">Low Carb (Rest Days)</div>
-                        <ul class="text-xs text-gray-400 space-y-1">
-                            <li>• Green Veg (Broccoli/Spinach)</li>
-                            <li>• Avocado</li>
-                            <li>• Nuts (Almonds/Walnuts)</li>
-                            <li>• Eggs</li>
-                            <li>• Greek Yogurt</li>
-                            <li>• Berries</li>
-                        </ul>
+                        <div class="text-[10px] font-bold text-gray-500 uppercase mb-3 tracking-wider">Low Carb (Rest)</div>
+                        <ul class="text-xs text-gray-400 space-y-2"><li>Green Veg</li><li>Avocado & Nuts</li><li>Eggs</li><li>Greek Yogurt</li></ul>
                     </div>
                 </div>
             </div>
-
-            <!-- 2 Week Cycle / Meal Plans (New) -->
-            <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 mb-6">
-                <h3 class="font-bold text-white mb-2">The Meal Plan</h3>
-                
-                <!-- Toggle Buttons for Plans -->
-                <div class="flex space-x-2 mb-3">
-                    <button onclick="togglePlan('train')" class="flex-1 bg-green-900 text-green-100 py-1 px-2 rounded text-xs border border-green-700">On Training Days</button>
-                    <button onclick="togglePlan('rest')" class="flex-1 bg-red-900 text-red-100 py-1 px-2 rounded text-xs border border-red-700">On Rest Days</button>
+            <div class="bg-[#1c1c1f] p-5 rounded-2xl border border-[#2a2a2d] mb-6">
+                <div class="flex space-x-2 mb-4">
+                    <button onclick="togglePlan('train')" id="tab-train" class="flex-1 bg-[#16D5E3] text-black py-2 rounded-lg text-xs font-bold">Training Day</button>
+                    <button onclick="togglePlan('rest')" id="tab-rest" class="flex-1 bg-[#131314] text-gray-400 border border-gray-700 py-2 rounded-lg text-xs font-bold">Rest Day</button>
                 </div>
-
-                <!-- Training Menu -->
-                <div id="plan-train" class="text-sm space-y-3">
-                    <div class="flex justify-between border-b border-gray-700 pb-1">
-                        <span class="text-gray-400">Breakfast</span>
-                        <span class="text-white text-right">Oats with Water/Milk + Whey</span>
-                    </div>
-                    <div class="flex justify-between border-b border-gray-700 pb-1">
-                        <span class="text-gray-400">Lunch</span>
-                        <span class="text-white text-right">Chicken/Tuna Wrap or Sandwich</span>
-                    </div>
-                    <div class="flex justify-between border-b border-gray-700 pb-1 bg-gray-900 p-2 rounded">
-                        <span class="text-yellow-400 font-bold">Post-Gym</span>
-                        <span class="text-white text-right font-bold">The Liquid Gold Shake</span>
-                    </div>
-                    <div class="flex justify-between pb-1">
-                        <span class="text-gray-400">Dinner</span>
-                        <span class="text-white text-right">Beef/Chicken + <span class="text-green-400">Large Rice/Potato</span></span>
-                    </div>
+                <div id="plan-train" class="text-sm space-y-4">
+                    <div class="flex justify-between border-b border-[#2a2a2d] pb-2"><span class="text-gray-500 text-xs uppercase">Breakfast</span><span class="text-white text-right">Oats + Water/Milk + Whey</span></div>
+                    <div class="flex justify-between border-b border-[#2a2a2d] pb-2"><span class="text-gray-500 text-xs uppercase">Lunch</span><span class="text-white text-right">Chicken/Tuna Wrap</span></div>
+                    <div class="bg-[#131314] p-3 rounded-lg border border-[#16D5E3]"><div class="flex justify-between"><span class="text-[#16D5E3] font-bold uppercase text-xs">Post-Gym</span><span class="text-white text-right font-bold text-xs">The Liquid Gold Shake</span></div></div>
+                    <div class="flex justify-between pt-2"><span class="text-gray-500 text-xs uppercase">Dinner</span><span class="text-white text-right">Meat + <span class="text-[#16D5E3]">Large Rice/Potato</span></span></div>
                 </div>
-
-                <!-- Rest Menu -->
-                <div id="plan-rest" class="text-sm space-y-3 hidden">
-                    <div class="flex justify-between border-b border-gray-700 pb-1">
-                        <span class="text-gray-400">Breakfast</span>
-                        <span class="text-white text-right">3 Eggs (Omelette/Scrambled)</span>
-                    </div>
-                    <div class="flex justify-between border-b border-gray-700 pb-1">
-                        <span class="text-gray-400">Lunch</span>
-                        <span class="text-white text-right">Chicken Salad (Lots of Oil/Avocado)</span>
-                    </div>
-                    <div class="flex justify-between border-b border-gray-700 pb-1 bg-gray-900 p-2 rounded">
-                        <span class="text-yellow-400 font-bold">Snack</span>
-                        <span class="text-white text-right">Greek Yogurt + Handful Almonds</span>
-                    </div>
-                    <div class="flex justify-between pb-1">
-                        <span class="text-gray-400">Dinner</span>
-                        <span class="text-white text-right">Steak/Fish + Veg + <span class="text-red-400">NO RICE</span></span>
-                    </div>
+                <div id="plan-rest" class="text-sm space-y-4 hidden">
+                    <div class="flex justify-between border-b border-[#2a2a2d] pb-2"><span class="text-gray-500 text-xs uppercase">Breakfast</span><span class="text-white text-right">3 Eggs (No Toast)</span></div>
+                    <div class="flex justify-between border-b border-[#2a2a2d] pb-2"><span class="text-gray-500 text-xs uppercase">Lunch</span><span class="text-white text-right">Chicken Salad (High Fat)</span></div>
+                    <div class="bg-[#131314] p-3 rounded-lg border border-gray-700"><div class="flex justify-between"><span class="text-gray-400 font-bold uppercase text-xs">Snack</span><span class="text-white text-right font-bold text-xs">Yogurt + Almonds</span></div></div>
+                    <div class="flex justify-between pt-2"><span class="text-gray-500 text-xs uppercase">Dinner</span><span class="text-white text-right">Steak/Fish + Veg + <span class="text-red-400">NO Rice</span></span></div>
                 </div>
             </div>
-
-            <!-- Recipe Card -->
-            <div class="bg-gray-800 p-4 rounded-xl border border-gray-700">
-                <h3 class="font-bold text-yellow-400 mb-2">🏆 Liquid Gold Shake</h3>
-                <ul class="text-xs space-y-1 list-disc pl-4 text-gray-300">
-                    <li>2 Scoops Whey</li>
-                    <li>300ml Whole Milk</li>
-                    <li>1 Tbsp Peanut Butter</li>
-                    <li>1 Banana</li>
-                    <li>5g Creatine</li>
-                    <li>Handful of Oats (Blended)</li>
+            <div class="bg-[#1c1c1f] p-5 rounded-2xl border border-[#2a2a2d]">
+                <h3 class="font-bold text-[#16D5E3] mb-3 text-sm uppercase tracking-wide">🏆 Liquid Gold Shake</h3>
+                <ul class="text-xs space-y-2 list-none text-gray-300">
+                    <li class="flex items-center"><span class="w-1 h-1 bg-gray-500 rounded-full mr-2"></span>2 Scoops Whey + 300ml Milk</li>
+                    <li class="flex items-center"><span class="w-1 h-1 bg-gray-500 rounded-full mr-2"></span>1 Tbsp Peanut Butter</li>
+                    <li class="flex items-center"><span class="w-1 h-1 bg-gray-500 rounded-full mr-2"></span>1 Banana + 5g Creatine</li>
+                    <li class="flex items-center"><span class="w-1 h-1 bg-gray-500 rounded-full mr-2"></span>Handful of Oats (Blended)</li>
                 </ul>
             </div>
         </section>
 
         <!-- SHOPPING SECTION -->
         <section id="view-shop" class="hidden-section">
-            <h2 class="text-xl font-bold mb-4 text-purple-400">Shopping List</h2>
-            <div class="bg-gray-800 p-2 rounded-xl border border-gray-700">
-                <ul class="divide-y divide-gray-700">
-                    <li class="p-3 flex items-center"><input type="checkbox" class="mr-3 w-5 h-5 accent-purple-500"> <span>Whey Protein</span></li>
-                    <li class="p-3 flex items-center"><input type="checkbox" class="mr-3 w-5 h-5 accent-purple-500"> <span>Creatine Monohydrate</span></li>
-                    <li class="p-3 flex items-center"><input type="checkbox" class="mr-3 w-5 h-5 accent-purple-500"> <span>Whole Milk / Oat Milk</span></li>
-                    <li class="p-3 flex items-center"><input type="checkbox" class="mr-3 w-5 h-5 accent-purple-500"> <span>Bananas</span></li>
-                    <li class="p-3 flex items-center"><input type="checkbox" class="mr-3 w-5 h-5 accent-purple-500"> <span>Peanut Butter (100% Nut)</span></li>
-                    <li class="p-3 flex items-center"><input type="checkbox" class="mr-3 w-5 h-5 accent-purple-500"> <span>Avocados</span></li>
-                    <li class="p-3 flex items-center"><input type="checkbox" class="mr-3 w-5 h-5 accent-purple-500"> <span>Almonds/Walnuts</span></li>
-                    <li class="p-3 flex items-center"><input type="checkbox" class="mr-3 w-5 h-5 accent-purple-500"> <span>Oats</span></li>
-                    <li class="p-3 flex items-center"><input type="checkbox" class="mr-3 w-5 h-5 accent-purple-500"> <span>Basmati Rice</span></li>
-                    <li class="p-3 flex items-center"><input type="checkbox" class="mr-3 w-5 h-5 accent-purple-500"> <span>Greek Yogurt</span></li>
+            <h2 class="text-xl font-bold mb-6 text-[#16D5E3]">Essentials</h2>
+            <div class="bg-[#1c1c1f] p-2 rounded-2xl border border-[#2a2a2d]">
+                <ul class="divide-y divide-[#2a2a2d]">
+                    <li class="p-4 flex items-center justify-between"><span>Whey Protein</span> <input type="checkbox" class="w-5 h-5"></li>
+                    <li class="p-4 flex items-center justify-between"><span>Creatine</span> <input type="checkbox" class="w-5 h-5"></li>
+                    <li class="p-4 flex items-center justify-between"><span>Whole Milk</span> <input type="checkbox" class="w-5 h-5"></li>
+                    <li class="p-4 flex items-center justify-between"><span>Bananas</span> <input type="checkbox" class="w-5 h-5"></li>
+                    <li class="p-4 flex items-center justify-between"><span>Peanut Butter</span> <input type="checkbox" class="w-5 h-5"></li>
+                    <li class="p-4 flex items-center justify-between"><span>Avocados</span> <input type="checkbox" class="w-5 h-5"></li>
+                    <li class="p-4 flex items-center justify-between"><span>Almonds</span> <input type="checkbox" class="w-5 h-5"></li>
+                    <li class="p-4 flex items-center justify-between"><span>Oats</span> <input type="checkbox" class="w-5 h-5"></li>
+                    <li class="p-4 flex items-center justify-between"><span>Basmati Rice</span> <input type="checkbox" class="w-5 h-5"></li>
                 </ul>
             </div>
         </section>
@@ -245,136 +164,128 @@
     </main>
 
     <!-- BOTTOM NAVIGATION -->
-    <nav class="bg-gray-900 border-t border-gray-800 flex justify-between px-6 py-3 text-[10px] text-gray-500 fixed bottom-0 w-full z-50 safe-area-pb">
-        <button onclick="switchTab('home', this)" class="nav-btn active-nav flex flex-col items-center">
-            <span class="text-xl mb-1">🏠</span> Home
-        </button>
-        <button onclick="switchTab('guide', this)" class="nav-btn flex flex-col items-center">
-            <span class="text-xl mb-1">🧠</span> Guide
-        </button>
-        <button onclick="switchTab('train', this)" class="nav-btn flex flex-col items-center">
-            <span class="text-xl mb-1">💪</span> Train
-        </button>
-        <button onclick="switchTab('diet', this)" class="nav-btn flex flex-col items-center">
-            <span class="text-xl mb-1">🍗</span> Diet
-        </button>
-        <button onclick="switchTab('shop', this)" class="nav-btn flex flex-col items-center">
-            <span class="text-xl mb-1">🛒</span> Shop
-        </button>
+    <nav class="bg-[#131314] border-t border-[#1c1c1f] flex justify-between px-6 py-4 text-[10px] text-gray-600 fixed bottom-0 w-full z-50 safe-area-pb shadow-2xl">
+        <button onclick="switchTab('home', this)" class="nav-btn active-nav flex flex-col items-center"><span class="text-xl mb-1">🏠</span> Home</button>
+        <button onclick="switchTab('guide', this)" class="nav-btn flex flex-col items-center"><span class="text-xl mb-1">🧠</span> Guide</button>
+        <button onclick="switchTab('train', this)" class="nav-btn flex flex-col items-center"><span class="text-xl mb-1">⚡</span> Train</button>
+        <button onclick="switchTab('diet', this)" class="nav-btn flex flex-col items-center"><span class="text-xl mb-1">🍗</span> Diet</button>
+        <button onclick="switchTab('shop', this)" class="nav-btn flex flex-col items-center"><span class="text-xl mb-1">🛒</span> Shop</button>
     </nav>
 
     <script>
-        // --- DATA & LOGIC ---
-
+        // --- DATA WITH VIDEO LINKS ---
         const workouts = {
             mon: {
-                title: "Monday: Push (Chest Focus)",
+                title: "MONDAY: PUSH (CHEST)",
                 exercises: [
-                    "Incline DB Press: 3x 8-10 (Heavy)",
-                    "Dips: 3x Failure (Lean Forward)",
-                    "Overhead Press: 3x 8-10",
-                    "Finisher: 10m Incline Walk (Gym)"
+                    { name: "Incline DB Press: 3x 8-10 (Heavy)", url: "https://www.youtube.com/results?search_query=how+to+do+incline+dumbbell+press+form" },
+                    { name: "Dips: 3x Failure (Lean Forward)", url: "https://www.youtube.com/results?search_query=how+to+do+chest+dips+form" },
+                    { name: "Overhead Press: 3x 8-10", url: "https://www.youtube.com/results?search_query=how+to+do+standing+overhead+press+form" },
+                    { name: "Finisher: 10m Incline Walk", url: "https://www.youtube.com/results?search_query=12-3-30+treadmill+workout" }
                 ]
             },
             wed: {
-                title: "Wednesday: Pull (Back)",
+                title: "WEDNESDAY: PULL (BACK)",
                 exercises: [
-                    "Deadlifts: 3x 5 (Testosterone Engine)",
-                    "Pull Ups / Lat Pulldown: 3x 10",
-                    "Face Pulls: 3x 15 (Posture)",
-                    "Finisher: 10m Incline Walk (Gym)"
+                    { name: "Deadlifts: 3x 5 (Heavy)", url: "https://www.youtube.com/results?search_query=how+to+deadlift+proper+form" },
+                    { name: "Pull Ups / Lat Pulldown: 3x 10", url: "https://www.youtube.com/results?search_query=how+to+do+lat+pulldown+form" },
+                    { name: "Face Pulls: 3x 15", url: "https://www.youtube.com/results?search_query=how+to+do+face+pulls+athlean+x" },
+                    { name: "Finisher: 10m Incline Walk", url: "https://www.youtube.com/results?search_query=12-3-30+treadmill+workout" }
                 ]
             },
             fri: {
-                title: "Friday: Legs",
+                title: "FRIDAY: LEGS",
                 exercises: [
-                    "Squats: 3x 6-8",
-                    "Leg Press: 3x 12",
-                    "Calf Raises: 3x 15",
-                    "Finisher: 10m Incline Walk (Gym)"
+                    { name: "Squats: 3x 6-8", url: "https://www.youtube.com/results?search_query=how+to+squat+proper+form" },
+                    { name: "Leg Press: 3x 12", url: "https://www.youtube.com/results?search_query=how+to+leg+press+proper+form" },
+                    { name: "Calf Raises: 3x 15", url: "https://www.youtube.com/results?search_query=standing+calf+raise+form" },
+                    { name: "Finisher: 10m Incline Walk", url: "https://www.youtube.com/results?search_query=12-3-30+treadmill+workout" }
                 ]
             }
         };
 
-        // Initialize
+        // --- APP LOGIC ---
         document.addEventListener('DOMContentLoaded', () => {
             const date = new Date();
-            document.getElementById('date-display').innerText = date.toDateString();
+            document.getElementById('date-display').innerText = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }).toUpperCase();
             setDashboard(date);
-            showWorkout('mon'); // Default load
+            showWorkout('mon'); 
         });
 
-        // Navigation
         function switchTab(viewId, btn) {
             document.querySelectorAll('section').forEach(el => el.classList.add('hidden-section'));
             document.getElementById('view-' + viewId).classList.remove('hidden-section');
-            
-            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active-nav', 'text-blue-400'));
-            if(btn) btn.classList.add('active-nav', 'text-blue-400');
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active-nav'));
+            if(btn) btn.classList.add('active-nav');
         }
 
-        // Toggle Meal Plans
         function togglePlan(type) {
             const trainEl = document.getElementById('plan-train');
             const restEl = document.getElementById('plan-rest');
+            const btnTrain = document.getElementById('tab-train');
+            const btnRest = document.getElementById('tab-rest');
+
             if(type === 'train') {
-                trainEl.classList.remove('hidden');
-                restEl.classList.add('hidden');
+                trainEl.classList.remove('hidden'); restEl.classList.add('hidden');
+                btnTrain.classList.replace('bg-[#131314]', 'bg-[#16D5E3]'); btnTrain.classList.replace('text-gray-400', 'text-black'); btnTrain.classList.remove('border');
+                btnRest.classList.replace('bg-[#16D5E3]', 'bg-[#131314]'); btnRest.classList.replace('text-black', 'text-gray-400'); btnRest.classList.add('border');
             } else {
-                trainEl.classList.add('hidden');
-                restEl.classList.remove('hidden');
+                trainEl.classList.add('hidden'); restEl.classList.remove('hidden');
+                btnRest.classList.replace('bg-[#131314]', 'bg-[#16D5E3]'); btnRest.classList.replace('text-gray-400', 'text-black'); btnRest.classList.remove('border');
+                btnTrain.classList.replace('bg-[#16D5E3]', 'bg-[#131314]'); btnTrain.classList.replace('text-black', 'text-gray-400'); btnTrain.classList.add('border');
             }
         }
 
-        // Dashboard Logic
         function setDashboard(date) {
-            const day = date.getDay(); // 0=Sun, 1=Mon, etc.
+            const day = date.getDay();
             const statusEl = document.getElementById('dashboard-status');
             const subEl = document.getElementById('dashboard-sub');
             const mealEl = document.getElementById('meal-suggestion');
-            const cardEl = document.getElementById('dashboard-card');
 
-            // Reset Styles
-            cardEl.classList.remove('border-green-500', 'border-gray-700');
-
-            if (day === 1) { // Mon
-                statusEl.innerText = "Training: PUSH";
-                subEl.innerText = "Focus: Upper Chest. Heavy Incline.";
-                cardEl.classList.add('border-blue-500');
+            if (day === 1) { 
+                statusEl.innerText = "PUSH DAY"; subEl.innerText = "Focus: Upper Chest. Heavy Incline.";
                 mealEl.innerHTML = "High Carb Day. <br>Eat Oats for breakfast. <br>Liquid Gold Shake post-gym. <br>Big portion of Rice/Pasta with Dinner.";
-            } else if (day === 3) { // Wed
-                statusEl.innerText = "Training: PULL";
-                subEl.innerText = "Focus: Deadlifts. Create the V-Taper.";
-                cardEl.classList.add('border-blue-500');
+            } else if (day === 3) { 
+                statusEl.innerText = "PULL DAY"; subEl.innerText = "Focus: Deadlifts. Create Width.";
                 mealEl.innerHTML = "High Carb Day. <br>Eat Oats for breakfast. <br>Liquid Gold Shake post-gym. <br>Big portion of Rice/Pasta with Dinner.";
-            } else if (day === 5) { // Fri
-                statusEl.innerText = "Training: LEGS";
-                subEl.innerText = "Focus: Squats. Don't skip the treadmill.";
-                cardEl.classList.add('border-blue-500');
+            } else if (day === 5) { 
+                statusEl.innerText = "LEG DAY"; subEl.innerText = "Focus: Squats. Don't skip the walk.";
                 mealEl.innerHTML = "High Carb Day. <br>Eat Oats for breakfast. <br>Liquid Gold Shake post-gym. <br>Big portion of Rice/Pasta with Dinner.";
-            } else { // Rest Days
-                statusEl.innerText = "Active Recovery";
-                subEl.innerText = "Keep moving. Don't sit all day.";
-                cardEl.classList.add('border-green-600');
+            } else { 
+                statusEl.innerText = "REST & RECOVER"; subEl.innerText = "Keep moving. Don't sit all day.";
                 mealEl.innerHTML = "Low Carb Day. <br>Eggs for breakfast (No toast). <br>Snack on Nuts/Yogurt. <br>Steak/Fish + Veg for dinner (No Rice/Potatoes).";
             }
         }
 
-        // Workout Logic
         let currentDayKey = 'mon';
-
         function showWorkout(dayKey) {
             currentDayKey = dayKey;
             const data = workouts[dayKey];
             
+            ['mon', 'wed', 'fri'].forEach(d => {
+                const btn = document.getElementById('btn-' + d);
+                if(d === dayKey) {
+                    btn.classList.add('bg-[#16D5E3]', 'text-black'); btn.classList.remove('text-gray-400');
+                } else {
+                    btn.classList.remove('bg-[#16D5E3]', 'text-black'); btn.classList.add('text-gray-400');
+                }
+            });
+            
             document.getElementById('workout-title').innerText = data.title;
             const list = document.getElementById('workout-list');
             list.innerHTML = '';
+            
+            // GENERATE LIST WITH VIDEO LINKS
             data.exercises.forEach(ex => {
-                list.innerHTML += `<li class="border-b border-gray-700 pb-2 flex items-center"><span class="text-blue-500 mr-2">▸</span>${ex}</li>`;
+                list.innerHTML += `
+                    <li class="flex items-center justify-between p-3 bg-[#131314] rounded-lg border border-[#2a2a2d]">
+                        <span class="text-sm text-gray-300 mr-2">${ex.name}</span>
+                        <a href="${ex.url}" target="_blank" class="flex-shrink-0 text-[#16D5E3] text-[10px] font-bold uppercase border border-[#16D5E3] px-2 py-1 rounded hover:bg-[#16D5E3] hover:text-black transition-colors">
+                            WATCH ▶
+                        </a>
+                    </li>`;
             });
 
-            // Load saved notes
             const saved = localStorage.getItem(`log_${dayKey}`);
             document.getElementById('workout-notes').value = saved ? saved : '';
         }
@@ -382,19 +293,13 @@
         function saveNotes() {
             const notes = document.getElementById('workout-notes').value;
             localStorage.setItem(`log_${currentDayKey}`, notes);
-            const btn = document.querySelector('button[onclick="saveNotes()"]');
+            const btn = document.getElementById('save-btn');
             const originalText = btn.innerText;
-            btn.innerText = "Saved!";
-            btn.classList.add('bg-green-600');
-            setTimeout(() => {
-                btn.innerText = originalText;
-                btn.classList.remove('bg-green-600');
-            }, 1500);
+            btn.innerText = "LOG SAVED"; btn.classList.add('bg-green-500');
+            setTimeout(() => { btn.innerText = originalText; btn.classList.remove('bg-green-500'); }, 1500);
         }
 
-        function toggleDaily(key) {
-            // Visual toggle only
-        }
+        function toggleDaily(key) { }
     </script>
 </body>
 </html>
